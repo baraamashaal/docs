@@ -10,18 +10,20 @@ This is the **target flow** with business rules: `tempBlock` and `blocked` are *
 
 ## Step-by-Step
 
-1. **Inspector** marks result (Not Found / Closed / Fake).
-2. **Division Manager** reviews:
-    - If rejected → stop/rework.
-    - If approved → company is set to `tempBlock` (Youth or Normal).
-3. **Revisit rules:**
-    - 1st inspection → revisit if Not Found/Closed.
-    - 2nd inspection → revisit if Not Found/Closed.
-    - 3rd inspection → must mark **Fake** + Report.
-4. **HCM** reviews:
-    - If approved → company becomes `blocked`.
-5. **Worker 1** updates Taziz, applies fines, removes `tempBlock`.
-6. **Worker 2** monitors for long-term blocked cases (>40 days).
+1.  **Inspector** performs an inspection and marks a result.
+2.  **Division Manager Review**: The case is sent to the Division Manager for review.
+3.  **DM Decision & Actions**:
+    -   If the DM **rejects** the case → process stops or is sent for rework.
+    -   If the DM **approves** the case:
+        1.  The company is set to `tempBlock` (with special handling for `Youth` companies).
+        2.  A **notification is sent** to the company owners.
+4.  **Post-Approval Flow**:
+    -   **For "Fake" reports**: The case moves to the **HCM** for final review.
+    -   **For "Not Found / Closed" (1st/2nd visit)**: A **revisit is scheduled**, and the inspection flow begins again.
+5.  **HCM Review (for Fake Reports only):**
+    -   If approved → company becomes `blocked`.
+6.  **Worker 1** updates Taziz, applies fines, removes `tempBlock`.
+7.  **Worker 2** monitors for long-term blocked cases (>40 days).
 
 ## Flow (Mermaid)
 
@@ -31,6 +33,10 @@ flowchart TD
     I1[Assign Inspection Task]
     I2{Result?
 Not Found / Closed / Fake}
+  end
+
+  subgraph System [System Action]
+    SN1["Send Notification to Owners\n(SMS & Email, template per result)"]
   end
 
   subgraph R2 [Division Manager]
@@ -48,24 +54,32 @@ Not Found / Closed / Fake}
     W2[Worker: Monitor Blocked >40 Days\nNo Prosecution Petition -> Create Investigation Task]
   end
 
-  %% Revisit logic
+  %% Revisit and Fake Report Paths
   I1 --> I2
   I2 -- Fake --> F1[Inspector Writes Fake Report]
   F1 --> DM1
   I2 -- Not Found/Closed --> C1[Visit Count +1]
   C1 --> C2{Visit Count <= 2?}
   C2 -- Yes (1st or 2nd) --> DM1
-  C2 -- No (3rd) --> FForced[Force Fake Selection\nReport Required]
+  C2 -- No (3rd) --> FForced[Force Fake Selec[markdown-features.mdx](../../../tutorial-basics/markdown-features.mdx)tion\nReport Required]
   FForced --> DM1
 
-  %% DM Approval
+  %% DM Approval Logic
   DM1 --> DM2
   DM2 -- Reject --> E0((Stop / Rework))
   DM2 -- Approve --> Y1{Youth Company?}
+
+  %% Post-Approval Actions
   Y1 -- Yes --> TB1[Set tempBlock = TEMP_BLOCK_YOUTH]
   Y1 -- No --> TB2[Set tempBlock = TEMP_BLOCK_NORMAL]
-  TB1 --> HCM1
-  TB2 --> HCM1
+  
+  TB1 --> SN1
+  TB2 --> SN1
+
+  %% Post-Notification Decision
+  SN1 --> DecisionNode{Is reported As Fake?}
+  DecisionNode -- Yes --> HCM1
+  DecisionNode -- No (Revisit Approved) --> I1
 
   %% HCM Approval
   HCM1 --> HCM2
