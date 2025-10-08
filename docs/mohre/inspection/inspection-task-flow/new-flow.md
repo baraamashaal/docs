@@ -61,7 +61,7 @@ Not Found / Closed / Fake}
   I2 -- Not Found/Closed --> C1[Visit Count +1]
   C1 --> C2{Visit Count <= 2?}
   C2 -- Yes (1st or 2nd) --> DM1
-  C2 -- No (3rd) --> FForced[Force Fake Selec[markdown-features.mdx](../../../tutorial-basics/markdown-features.mdx)tion\nReport Required]
+  C2 -- No (3rd) --> FForced[Force Fake Selection\nReport Required]
   FForced --> DM1
 
   %% DM Approval Logic
