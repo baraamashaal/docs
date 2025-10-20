@@ -1,0 +1,42 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.Tutorial - Basics": {
+    "message": "Tutorial - Basics",
+    "description": "The label for category Tutorial - Basics in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Tutorial - Basics.link.generated-index.description": {
+    "message": "5 minutes to learn the most important Docusaurus concepts.",
+    "description": "The generated-index page description for category Tutorial - Basics in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Tutorial - Extras": {
+    "message": "Tutorial - Extras",
+    "description": "The label for category Tutorial - Extras in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.mohre": {
+    "message": "mohre",
+    "description": "The label for category mohre in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.inspection": {
+    "message": "inspection",
+    "description": "The label for category inspection in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.inspection-task-flow": {
+    "message": "inspection-task-flow",
+    "description": "The label for category inspection-task-flow in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Queries Domain": {
+    "message": "Queries Domain",
+    "description": "The label for category Queries Domain in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.labour-accommodations": {
+    "message": "labour-accommodations",
+    "description": "The label for category labour-accommodations in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.oracle": {
+    "message": "oracle",
+    "description": "The label for category oracle in sidebar tutorialSidebar"
+  }
+}
